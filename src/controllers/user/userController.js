@@ -1,16 +1,70 @@
-function getUsers(req, res) {
-    res.send('Get all users');
+import User from "../../models/user/user.js";
+
+async function getUsers(req, res) {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 }
-function getUserById(req, res) {
-    res.send('Get user by id');
+async function getUserById(req, res) {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 }
-function createUser(req, res) {
-    res.send('Create user');
+async function createUser(req, res) {
+    try {
+        const user = await User.findOne({ user: req.body.user, email: req.body.email });
+        if (user) {
+            res.status(400).json({ message: 'User already exists' });
+        }
+        const newUser = await User.create({ user: req.body.user, email: req.body.email, password: req.body.password });
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 }
-function updateUser(req, res) {
-    res.send('Update user');
+async function updateUser(req, res) {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            user.user = req.body.user;
+            user.email = req.body.email;
+            user.password = req.body.password;
+            await user.save();
+            res.status(200).json(user);
+        }
+        else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 }
-function deleteUser(req, res) {
-    res.send('Delete user');
+
+async function deleteUser(req, res) {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            await user.remove();
+            res.status(200).json({ message: 'User removed' });
+        }
+        else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    }
+    catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 }
+
 export { getUsers, getUserById, createUser, updateUser, deleteUser };
