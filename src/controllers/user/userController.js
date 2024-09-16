@@ -34,18 +34,13 @@ async function createUser(req, res) {
 }
 async function updateUser(req, res) {
     try {
-        const user = await User.findById(req.params.id);
-        if (user) {
-            user.user = req.body.user;
-            user.email = req.body.email;
-            user.password = req.body.password;
-            await user.save();
-            res.status(200).json(user);
-        }
-        else {
+        const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+        if (!user) {
             res.status(404).json({ message: 'User not found' });
         }
-    }
+        else {
+            res.status(200).json(user);
+    }}
     catch (error) {
         res.status(500).send({ message: error.message });
     }
