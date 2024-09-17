@@ -1,4 +1,6 @@
-import User from "../../models/user/user.js";
+import User from "../../models/user/userModel.js";
+
+import bcrypt from 'bcrypt';
 
 async function getUsers(req, res) {
     try {
@@ -26,8 +28,11 @@ async function createUser(req, res) {
         if (user) {
             res.status(400).json({ message: 'User already exists' });
         }
-        const newUser = await User.create({ user: req.body.user, email: req.body.email, password: req.body.password });
-        res.status(201).json(newUser);
+            const newUser = new User(req.body);
+            newUser.password = bcrypt.hashSync(req.body.password, 10);
+            await newUser.save();
+            res.status(201).json(newUser);
+
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
@@ -40,7 +45,8 @@ async function updateUser(req, res) {
         }
         else {
             res.status(200).json(user);
-    }}
+        }
+    }
     catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -61,5 +67,19 @@ async function deleteUser(req, res) {
         res.status(500).send({ message: error.message });
     }
 }
+async function login(req, res) {
+    try {
+        const user = await User.findOne({ email: req.body.email});
+        if (!user) {
+            res.status(400).json({ message: 'mail dont exists' });
+        }
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+            res.status(200).json(user);
+        } else {
+            res.status(400).json({ message: 'Mail or password invalidi' });
+        }
+    } catch (error) {
+    }
+}
 
-export { getUsers, getUserById, createUser, updateUser, deleteUser };
+export { getUsers, getUserById, createUser, updateUser, deleteUser, login };
