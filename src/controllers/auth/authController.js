@@ -28,10 +28,10 @@ async function createUser(req, res) {
         if (user) {
             res.status(400).json({ message: 'User already exists' });
         }
-            const newUser = new User(req.body);
-            newUser.password = bcrypt.hashSync(req.body.password, 10);
-            await newUser.save();
-            res.status(201).json(newUser);
+        const newUser = new User(req.body);
+        newUser.password = bcrypt.hashSync(req.body.password, 10);
+        await newUser.save();
+        res.status(201).json(newUser);
 
     } catch (error) {
         res.status(400).send({ message: error.message });
@@ -69,7 +69,7 @@ async function deleteUser(req, res) {
 }
 async function login(req, res) {
     try {
-        const user = await User.findOne({ email: req.body.email});
+        const user = await User.findOne({ email: req.body.email });
         if (!user) {
             res.status(400).json({ message: 'mail dont exists' });
         }
@@ -82,4 +82,4 @@ async function login(req, res) {
     }
 }
 
-export { getUsers, getUserById, createUser, updateUser, deleteUser, login };
+export default { getUsers, getUserById, createUser, updateUser, deleteUser, login };

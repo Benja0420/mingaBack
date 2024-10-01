@@ -1,8 +1,18 @@
 import express from 'express';
 
-import user from './user/userRouter.js';
+import authorsRouter from './authors/authorRouter.js';
+import mangasRouter from './mangas/mangasRouter.js';
+import categoriesRouter from './categories/categoriesRouter.js';
+import chaptersRouter from "./chapter/chaptersRouter.js"
+import authRouter from './auth/authRouter.js';
 
-const indexRouter = express.Router();
- indexRouter.use('/user', user); 
+let router = express.Router();
 
-export default indexRouter;
+router.use("/auth", authRouter)
+router.use("/authors", authorsRouter)
+router.use("/categories", categoriesRouter)
+router.use("/chapters", chaptersRouter)
+router.use("/mangas", mangasRouter)
+
+
+export default router;

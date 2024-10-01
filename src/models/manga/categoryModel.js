@@ -1,26 +1,26 @@
 import { Schema, model } from "mongoose";
 
-const userSchema = new Schema({
-    user: {
+const categorySchema = new Schema({
+    name: {
         type: String,
         required: true,
         unique: true,
     },
-    email: {
+    description: {
         type: String,
         required: true,
-        unique: true,
+        minLenght: 50,
     },
-    password: {
+    color: {
         type: String,
         required: true,
     },
-    role: {
+    photo: {
         type: String,
-        enum: ['author', 'user', 'admin'],
-        default: 'user',
-    },
+        required: true,
+    }
 });
 
-const User = model("User", userSchema);
-export default User;
+const Category = model("Category", categorySchema);
+
+export default Category;
