@@ -10,6 +10,7 @@ const authorSchema = new Schema({
         type: String,
         required: true,
         minLenght: 50,
+        maxLenght: 500,
     },
 
 });
