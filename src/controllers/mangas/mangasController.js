@@ -1,4 +1,4 @@
-import mangaModel from '../../models/manga/mangaModel.js';
+import mangaModel from "../../models/manga/mangaModel.js";
 
 async function getAllMangas(req, res) {
   try {
@@ -25,48 +25,48 @@ async function getMangaById(req, res) {
 }
 
 async function createManga(req, res) {
-    try {
-        const manga = await mangaModel.findOne({ title: req.body.title });
-        if (manga) {
-            res.status(400).json({ message: 'Manga already exists' });
-        }
-        const newManga = new mangaModel(req.body);
-        await newManga.save();
-        res.status(201).json(newManga);
-
-    } catch (error) {
-        res.status(400).send({ message: error.message });
+  try {
+    const manga = await mangaModel.findOne({ title: req.body.title });
+    if (manga) {
+      res.status(400).json({ message: "Manga already exists" });
     }
+    const newManga = new mangaModel(req.body);
+    await newManga.save();
+    res.status(201).json(newManga);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
 }
 
 async function updateManga(req, res) {
-    try {
-        const manga = await mangaModel.findOneAndUpdate({ _id: req.params.id }, req.body
-            , { new: true });
-        if (!manga) {
-            res.status(404).json({ message: 'Manga not found' });
-        }
-        else {
-            res.status(200).json(manga);
-        }
+  try {
+    const manga = await mangaModel.findOneAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      { new: true }
+    );
+    if (!manga) {
+      res.status(404).json({ message: "Manga not found" });
+    } else {
+      res.status(200).json(manga);
     }
-    catch (error) {
-        res.status(500).send({ message: error.message });
-    }
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 }
 
 async function deleteManga(req, res) {
-    try {
-        const manga = await mangaModel.findById(req.params.id);
-        if (manga) {
-            await manga.remove();
-            res.status(200).json({ message: 'Manga removed' });
-        } else {
-            res.status(404).json({ message: 'Manga not found' });
-        }
-    } catch (error) {
-        res.status(500).send({ message: error.message });
+  try {
+    const manga = await mangaModel.findById(req.params.id);
+    if (manga) {
+      await manga.remove();
+      res.status(200).json({ message: "Manga removed" });
+    } else {
+      res.status(404).json({ message: "Manga not found" });
     }
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 }
 
 async function getMyMangas(req, res) {
@@ -80,4 +80,11 @@ async function getMyMangas(req, res) {
   }
 }
 
-export default { getAllMangas, getMangaById, createManga, updateManga, deleteManga, getMyMangas };
+export default {
+  getAllMangas,
+  getMangaById,
+  createManga,
+  updateManga,
+  deleteManga,
+  getMyMangas,
+};
