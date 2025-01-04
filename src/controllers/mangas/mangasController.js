@@ -13,7 +13,7 @@ async function getMangaById(req, res) {
   try {
     const manga = await mangaModel
       .findById(req.params.id)
-      .populate("category_id", "color");
+      .populate("category_id", "color", "name");
     if (manga) {
       res.status(200).json(manga);
     } else {
