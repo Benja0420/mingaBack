@@ -2,7 +2,7 @@ import mangaModel from "../../models/manga/mangaModel.js";
 
 async function getAllMangas(req, res) {
   try {
-    const mangas = await mangaModel.find().populate("category_id", "color");
+    const mangas = await mangaModel.find().populate("category_id", "color", "name");
     res.status(200).json(mangas);
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -73,7 +73,7 @@ async function getMyMangas(req, res) {
   try {
     const mangas = await mangaModel
       .find({ author_id: req.user._id })
-      .populate("category_id", "color");
+      .populate("category_id", "color", "name");
     res.status(200).json(mangas);
   } catch (error) {
     res.status(500).send({ message: error.message });
