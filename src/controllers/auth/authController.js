@@ -1,6 +1,7 @@
 import User from "../../models/user/userModel.js";
 
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 async function getUsers(req, res) {
   try {
@@ -71,14 +72,18 @@ async function login(req, res) {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(400).json({ message: "mail dont exists" });
+      return res.status(400).json({ message: "Correo electrónico no existe" });
     }
     if (bcrypt.compareSync(req.body.password, user.password)) {
-      res.status(200).json(user);
+      const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      res.status(200).json({ token });
     } else {
-      res.status(400).json({ message: "Mail or password invalidi" });
+      return res.status(400).json({ message: "Correo electrónico o contraseña inválidos" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error durante el inicio de sesión:", error);
+    return res.status(500).json({ message: "Error del servidor" });
+  }
 }
 
 export default {
