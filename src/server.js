@@ -19,7 +19,7 @@ app.listen(process.env.PORT, () => {
 });
 app.use("/", indexRouter);
 app.get("/", (req, res) => {
-  res.send("ok 🟢");
+  res.send("ok ✅🟢");
 });
 
 export default app;
