@@ -1,70 +1,8 @@
-import authorModel from "../../models/user/authorModel.js";
-
-async function getAllAuthors(req, res) {
-  try {
-    const authors = await authorModel.find();
-    res.status(200).json(authors);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-}
-
-async function getAuthorById(req, res) {
-  try {
-    const author = await authorModel.findById(req.params.id);
-    if (author) {
-      res.status(200).json(author);
-    } else {
-      res.status(404).json({ message: "Author not found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-}
-
-async function createAuthor(req, res) {
-  try {
-    const author = new authorModel({
-      user_id: req.body.user_id,
-      bio: req.body.bio,
-    });
-    const newAuthor = await author.save();
-    res.status(201).json(newAuthor);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-}
-
-async function updateAuthor(req, res) {
-  try {
-    const author = await authorModel.findById(req.params.id);
-    if (author) {
-      author.user_id = req.body.user_id;
-      author.bio = req.body.bio;
-
-      const updatedAuthor = await author.save();
-      res.status(200).json(updatedAuthor);
-    } else {
-      res.status(404).json({ message: "Author not found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-}
-
-async function deleteAuthor(req, res) {
-  try {
-    const author = await authorModel.findById(req.params.id);
-    if (author) {
-      await author.remove();
-      res.status(200).json({ message: "Author removed" });
-    } else {
-      res.status(404).json({ message: "Author not found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-}
+import getAllAuthors from "../../controllers/authors/controllers/getAllAuthors.js";
+import getAuthorById from "../../controllers/authors/controllers/getAuthorById.js";
+import createAuthor from "../../controllers/authors/controllers/createAuthor.js";
+import updateAuthor from "../../controllers/authors/controllers/updateAuthor.js";
+import deleteAuthor from "../../controllers/authors/controllers/deleteAuthor.js";
 
 export default {
   getAllAuthors,

@@ -1,6 +1,6 @@
 import express from "express";
 
-import categoriesController from "../../controllers/mangas/categoriesController.js";
+import categoriesController from "../../controllers/categories/categoriesController.js";
 
 const categoriesRouter = express.Router();
 
