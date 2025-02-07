@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     }
   ],
+  "env": {
+      "NODE_ENV": "production",
+      "NODE_OPTIONS": "--experimental-modules"
+    },
   "routes": [
     {
       "src": "/(.*)",

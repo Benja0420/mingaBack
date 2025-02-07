@@ -1,9 +1,11 @@
-/* import getCategories from "./controllers/getCategories.js";
+import getCategories from "./controllers/getCategories.js";
 import getCategory from "./controllers/getCategory.js";
 import createCategory from "./controllers/createCategory.js";
 import updateCategory from "./controllers/updateCategory.js";
-import deleteCategory from "./controllers/deleteCategory.js"; */
-import categoriesModel from "../../models/manga/categoryModel.js";
+import deleteCategory from "./controllers/deleteCategory.js";
+
+
+/* import categoriesModel from "../../models/manga/categoryModel.js";
 
 async function getCategories(req, res) {
   try {
@@ -53,7 +55,7 @@ async function deleteCategory(req, res) {
     return res.status(404).send(`No category with id: ${id}`);
   await categoriesModel.findByIdAndRemove(id);
   res.json({ message: "Category deleted successfully." });
-}
+} */
 
 export default {
   getCategories,
