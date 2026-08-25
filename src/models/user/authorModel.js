@@ -9,8 +9,8 @@ const authorSchema = new Schema({
   bio: {
     type: String,
     required: true,
-    minLenght: 50,
-    maxLenght: 500,
+    minLength: 50,
+    maxLength: 500,
   },
 });
 

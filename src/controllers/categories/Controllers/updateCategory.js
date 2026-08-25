@@ -8,7 +8,7 @@ async function updateCategory(req, res) {
   const updatedCategory = await categoriesModel.findByIdAndUpdate(
     id,
     { ...category, id },
-    { new: true }
+    { new: true, runValidators: true }
   );
   res.json(updatedCategory);
 }

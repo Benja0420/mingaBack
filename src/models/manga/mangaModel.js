@@ -9,7 +9,7 @@ const mangaSchema = new Schema({
   description: {
     type: String,
     required: true,
-    minLenght: 50,
+    minLength: 50,
   },
   date: {
     type: Date,

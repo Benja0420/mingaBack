@@ -5,7 +5,7 @@ async function updateManga(req, res) {
     const manga = await mangaModel.findOneAndUpdate(
       { _id: req.params.id },
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!manga) {
       res.status(404).json({ message: "Manga not found" });

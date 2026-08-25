@@ -4,6 +4,7 @@ async function updateUser(req, res) {
   try {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true,
+      runValidators: true,
     });
     if (!user) {
       res.status(404).json({ message: "User not found" });

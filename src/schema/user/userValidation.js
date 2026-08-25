@@ -1,9 +1,25 @@
 import { z } from "zod";
 
-const userSchema = z.object({
-  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
-  email: z.string().email("El email debe ser válido"),
-  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+const objectId = z.string().regex(/^[a-f\d]{24}$/i, "Invalid id");
+const idParams = z.object({ id: objectId });
+const userFields = {
+	user: z.string().trim().min(3).max(50),
+	email: z.email(),
+	password: z.string().min(8).max(128),
+	role: z.enum(["author", "user", "admin"]).optional(),
+};
+
+export const createUserSchema = z.object({ body: z.object(userFields) });
+
+export const loginSchema = z.object({
+	body: z.object({ email: userFields.email, password: userFields.password }),
 });
 
-export default userSchema;
+export const updateUserSchema = z.object({
+	params: idParams,
+	body: z.object(userFields).partial().refine((data) => Object.keys(data).length > 0, {
+		message: "At least one field is required",
+	}),
+});
+
+export const userIdSchema = z.object({ params: idParams });
